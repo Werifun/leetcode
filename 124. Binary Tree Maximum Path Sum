@@ -1,0 +1,29 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+ //dfs中的return的最值，以及ret的最值
+class Solution {
+public:
+    int ret=INT_MIN;
+    int maxPathSum(TreeNode* root) {
+        
+        
+        
+        dfs(root);
+        return ret;
+    }
+    
+    int dfs(TreeNode* root){
+       if(!root) return 0;
+       int l=dfs(root->left);
+       int r=dfs(root->right);
+       ret=max(root->val,max(max(root->val+r,root->val+l) ,max(ret,root->val+l+r) ));
+       return max(root->val,max(root->val+l,root->val+r) );
+    }
+};
