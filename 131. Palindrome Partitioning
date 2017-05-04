@@ -1,0 +1,44 @@
+class Solution {
+public:
+    vector<vector<string>> partition(string s) {
+        if(s.empty()) return vector<vector<string>>();
+        if(s.length()==1) return vector<vector<string>>(1,vector<string>(1,s));
+        
+        int len=s.length();
+        int pos=0;
+        vector<vector<string>> ret;
+        
+        while(pos<len){
+            if(isPalindrome(s,0,pos)){
+                //如果达到最后一位，直接放入ret中
+                if(pos==len-1){
+                    vector<string> tmp;
+                    tmp.push_back(s.substr(0,pos+1));
+                    ret.push_back(tmp);//????
+                }
+                
+                else{
+                    vector<vector<string>> subRet=partition(s.substr(pos+1));
+                    auto iter=subRet.begin();
+                    while(iter!=subRet.end()){
+                        (*iter).insert((*iter).begin(),s.substr(0,pos+1));
+                        ret.push_back(*iter);//??iter 是subret中，放入ret中。
+                        iter++;
+                    }
+                }
+            }
+            ++pos;
+        }
+        
+        return ret;
+    }
+    
+    //判断是否是回文字符串
+    bool isPalindrome(string str,int beg,int end){
+        if(beg<0||beg>end||end>=str.length()) return false;
+        while(beg<end){
+            if(str[beg++]!=str[end--]) return false;
+        }
+        return true;
+    }
+};
